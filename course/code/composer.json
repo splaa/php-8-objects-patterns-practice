@@ -1,0 +1,24 @@
+{
+    "name": "course/php8-oop",
+    "description": "Примеры к курсу по объектному PHP 8",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Course\\": ""
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "lint": "php Ch15/check.php"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
