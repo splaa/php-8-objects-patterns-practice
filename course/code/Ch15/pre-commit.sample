@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Git-хук: копировать в .git/hooks/pre-commit и сделать исполняемым:
+#   cp course/code/Ch15/pre-commit.sample .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+
+set -euo pipefail
+
+php course/code/Ch15/check.php
+composer -d course/code test

@@ -1,5 +1,14 @@
 # PHP 8 Objects, Patterns, and Practice
 
+## Курс `course/`
+
+Каталог `course/` — самостоятельный пошаговый курс на русском языке по идеям книги (не конспект и не перевод): собственные формулировки, собственный сквозной пример «медиатека» и запускаемый код в `course/code/`.
+
+```
+$ mdbook build course          # собрать книгу (или mdbook serve course)
+$ php course/code/Ch01/run.php # запустить пример первой главы
+```
+
 ## Source Code
 
 This directory contains the source code for PHP 8 Objects, Patterns, and Practice as well as some fairly rudimentary tests.
