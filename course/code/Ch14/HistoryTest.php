@@ -9,6 +9,7 @@ use Course\Ch10\History;
 use Course\Ch10\Playlist;
 use Course\Ch10\RenamePlaylist;
 use Course\Ch10\Track;
+use Error;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
@@ -20,10 +21,21 @@ final class HistoryTest extends TestCase
         $history = new History();
 
         $history->run(new RenamePlaylist($playlist, 'Вечер'));
-        self::assertSame('Вечер', $playlist->title());
+        self::assertSame('Вечер', $playlist->title);
 
         $history->undoLast();
-        self::assertSame('Утро', $playlist->title());
+        self::assertSame('Утро', $playlist->title);
+    }
+
+    /** private(set) — это контракт, и его тоже стоит проверить тестом. */
+    public function testTitleCannotBeChangedFromOutside(): void
+    {
+        $playlist = new Playlist('Утро');
+
+        $this->expectException(Error::class);
+
+        /** @phpstan-ignore-next-line намеренно нарушаем видимость */
+        $playlist->title = 'Вечер';
     }
 
     public function testUndoRemovesOnlyLastCommand(): void
@@ -35,7 +47,7 @@ final class HistoryTest extends TestCase
         $history->run(new RenamePlaylist($playlist, 'Вечер'));
         $history->undoLast();
 
-        self::assertSame('Утро', $playlist->title());
+        self::assertSame('Утро', $playlist->title);
         self::assertCount(1, $playlist->tracks());
     }
 

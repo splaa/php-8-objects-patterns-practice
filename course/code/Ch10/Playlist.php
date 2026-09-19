@@ -9,13 +9,9 @@ final class Playlist implements PlaylistNode
     /** @var list<PlaylistNode> */
     private array $children = [];
 
-    public function __construct(private string $title)
+    /** Снаружи только читают: переименование идёт через команду. */
+    public function __construct(public private(set) string $title)
     {
-    }
-
-    public function title(): string
-    {
-        return $this->title;
     }
 
     public function rename(string $title): void

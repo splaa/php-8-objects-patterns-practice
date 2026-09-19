@@ -15,7 +15,7 @@ final class CatalogTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->catalog = (new Catalog())
+        $this->catalog = new Catalog()
             ->add(new Track(1, 'Coastline', 215))
             ->add(new Track('drift-2024', 'Drift', 270));
     }

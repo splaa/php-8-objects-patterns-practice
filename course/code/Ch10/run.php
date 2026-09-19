@@ -47,7 +47,7 @@ $history = new History();
 echo $history->run(new AddTrack($playlist, $tracks[0])), PHP_EOL;
 echo $history->run(new RenamePlaylist($playlist, 'Вечер')), PHP_EOL;
 echo $history->undoLast(), PHP_EOL;
-printf('Сейчас: «%s», треков %d%s', $playlist->title(), count($playlist->tracks()), PHP_EOL);
+printf('Сейчас: «%s», треков %d%s', $playlist->title, count($playlist->tracks()), PHP_EOL);
 
 // Visitor: обход дерева и новая операция без правки Track/Playlist.
 $root = new Playlist('Библиотека');

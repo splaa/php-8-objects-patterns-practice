@@ -15,7 +15,12 @@ final class PlaylistService
 
     public function add(string $title): void
     {
-        if (in_array($title, $this->titles, true)) {
+        $duplicate = array_any(
+            $this->titles,
+            static fn (string $known): bool => strcasecmp($known, $title) === 0,
+        );
+
+        if ($duplicate) {
             $this->logger->log(LogLevel::Warning, 'Трек {title} уже в плейлисте', ['title' => $title]);
 
             return;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Course\Ch14;
 
+use Course\Ch12\AlbumMapper;
 use Course\Ch12\Storage;
 use Course\Ch12\Track;
 use Course\Ch12\TrackMapper;
@@ -21,6 +22,20 @@ final class IdentityMapTest extends TestCase
         $second = $mapper->find(1);
 
         self::assertSame($first, $second);
+        self::assertCount(1, $storage->queries());
+    }
+
+    public function testLazyAlbumHitsStorageOnlyOnFirstAccess(): void
+    {
+        $storage = new Storage();
+        $album = new AlbumMapper(new TrackMapper($storage))->lazy(1, 'Coastline EP');
+
+        self::assertCount(0, $storage->queries());
+
+        self::assertSame(485, $album->seconds());
+        self::assertCount(1, $storage->queries());
+
+        $album->seconds();
         self::assertCount(1, $storage->queries());
     }
 

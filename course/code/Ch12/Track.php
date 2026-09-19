@@ -10,19 +10,9 @@ final class Track
     public function __construct(
         public ?int $id,
         public readonly int $albumId,
-        private string $title,
-        private int $seconds,
+        public private(set) string $title,
+        public readonly int $seconds,
     ) {
-    }
-
-    public function title(): string
-    {
-        return $this->title;
-    }
-
-    public function seconds(): int
-    {
-        return $this->seconds;
     }
 
     public function rename(string $title): void

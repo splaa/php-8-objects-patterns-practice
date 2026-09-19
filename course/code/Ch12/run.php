@@ -7,6 +7,7 @@ declare(strict_types=1);
 require __DIR__ . '/../autoload.php';
 
 use Course\Ch12\Album;
+use Course\Ch12\AlbumMapper;
 use Course\Ch12\Storage;
 use Course\Ch12\Track;
 use Course\Ch12\TrackMapper;
@@ -20,12 +21,14 @@ $first = $mapper->find(1);
 $second = $mapper->find(1);
 var_dump($first === $second);
 
-// Lazy Load: альбом создан, но запроса за треками ещё не было.
-$album = new Album(1, 'Coastline EP', static fn (): array => $mapper->findByAlbum(1));
+// Lazy Load: объект есть, запроса ещё не было.
+$album = new AlbumMapper($mapper)->lazy(1, 'Coastline EP');
+var_dump($album instanceof Album);
 echo 'Альбом создан, запросов: ', count($storage->queries()), PHP_EOL;
+
 printf('%s: %d сек, запросов: %d%s', $album->title, $album->seconds(), count($storage->queries()), PHP_EOL);
-$album->tracks();
-echo 'После повторного tracks() запросов по-прежнему: ', count($storage->queries()), PHP_EOL;
+$album->seconds();
+echo 'После повторного обращения запросов по-прежнему: ', count($storage->queries()), PHP_EOL;
 
 // Unit of Work: правки копятся и уходят одним коммитом.
 $uow = new UnitOfWork($mapper);

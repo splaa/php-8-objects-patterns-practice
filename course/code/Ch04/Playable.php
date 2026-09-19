@@ -6,10 +6,11 @@ namespace Course\Ch04;
 
 interface Playable
 {
-    public function seconds(): int;
-
-    public function label(): string;
+    /** Интерфейс требует свойство только для чтения. */
+    public int $seconds { get; }
 
     /** Реализацию для всех даёт трейт FormatsDuration. */
-    public function duration(): string;
+    public string $duration { get; }
+
+    public function label(): string;
 }

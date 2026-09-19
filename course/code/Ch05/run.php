@@ -10,7 +10,7 @@ use Course\Ch05\Catalog;
 use Course\Ch05\Quality;
 use Course\Ch05\Track;
 
-$catalog = (new Catalog())
+$catalog = new Catalog()
     ->add(new Track(1, 'Coastline', 215, Quality::Lossless, 'We walked to the water at dawn'))
     ->add(new Track('drift-2024', 'Drift', 270));
 

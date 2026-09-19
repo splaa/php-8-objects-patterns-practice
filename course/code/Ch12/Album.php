@@ -4,30 +4,19 @@ declare(strict_types=1);
 
 namespace Course\Ch12;
 
-use Closure;
-
-/** Lazy Load: треки грузятся при первом обращении, а не при создании альбома. */
+/** Обычный класс без единой строки про ленивость: её добавит AlbumMapper. */
 final class Album
 {
-    /** @var list<Track>|null */
-    private ?array $tracks = null;
-
-    /** @param Closure(): list<Track> $loader */
+    /** @param list<Track> $tracks */
     public function __construct(
         public readonly int $id,
         public readonly string $title,
-        private readonly Closure $loader,
+        public readonly array $tracks,
     ) {
-    }
-
-    /** @return list<Track> */
-    public function tracks(): array
-    {
-        return $this->tracks ??= ($this->loader)();
     }
 
     public function seconds(): int
     {
-        return array_sum(array_map(static fn (Track $t): int => $t->seconds(), $this->tracks()));
+        return array_sum(array_map(static fn (Track $t): int => $t->seconds, $this->tracks));
     }
 }

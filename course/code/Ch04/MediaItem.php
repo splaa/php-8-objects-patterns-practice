@@ -10,13 +10,8 @@ abstract class MediaItem implements Playable
 
     public function __construct(
         protected readonly string $title,
-        protected readonly int $seconds,
+        public readonly int $seconds,
     ) {
-    }
-
-    final public function seconds(): int
-    {
-        return $this->seconds;
     }
 
     /** Наследник обязан сказать, как он представляется. */

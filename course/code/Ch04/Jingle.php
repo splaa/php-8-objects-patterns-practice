@@ -9,13 +9,10 @@ final class Jingle implements Playable
 {
     use FormatsDuration;
 
+    public int $seconds { get => 5; }
+
     public function __construct(private readonly string $sponsor)
     {
-    }
-
-    public function seconds(): int
-    {
-        return 5;
     }
 
     public function label(): string

@@ -16,11 +16,11 @@ use Course\Ch07\Track;
 
 $tracks = [new Track('Coastline', 215), new Track('Drift', 270)];
 
-(new TightExporter())->export($tracks, 'm3u');
+new TightExporter()->export($tracks, 'm3u');
 
 $console = new ConsoleOutput();
-(new Exporter(new M3uFormatter(), $console))->export($tracks);
-(new Exporter(new JsonFormatter(), $console))->export($tracks);
+new Exporter(new M3uFormatter(), $console)->export($tracks);
+new Exporter(new JsonFormatter(), $console)->export($tracks);
 
 // Новый формат добавляется снаружи — Exporter не меняется.
 $csv = new class implements Course\Ch07\Formatter {
@@ -30,8 +30,8 @@ $csv = new class implements Course\Ch07\Formatter {
     }
 };
 
-(new Exporter($csv, $console))->export($tracks);
+new Exporter($csv, $console)->export($tracks);
 
 $memory = new MemoryOutput();
-(new Exporter(new JsonFormatter(), $memory))->export($tracks);
+new Exporter(new JsonFormatter(), $memory)->export($tracks);
 printf('В память записано строк: %d, первая длиной %d символов%s', count($memory->written()), strlen($memory->written()[0]), PHP_EOL);

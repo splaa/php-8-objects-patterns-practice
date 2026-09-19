@@ -28,7 +28,7 @@ final class Track
 }
 
 echo formatRawTrack($rawTrack), PHP_EOL;
-echo (new Track('Coastline', 215))->format(), PHP_EOL;
+echo new Track('Coastline', 215)->format(), PHP_EOL;
 
 // Массив легко испортить незаметно, объект — нет.
 $rawTrack['secons'] = 300;

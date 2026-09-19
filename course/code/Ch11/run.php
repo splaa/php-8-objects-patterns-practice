@@ -31,5 +31,5 @@ foreach ($requests as $request) {
 }
 
 // Сервис не зарегистрирован — падение ловит фронт-контроллер, а не пользователь.
-echo (new FrontController(new CommandResolver(), new Registry()))
+echo new FrontController(new CommandResolver(), new Registry())
     ->handle(new Request('/playlist')), PHP_EOL;

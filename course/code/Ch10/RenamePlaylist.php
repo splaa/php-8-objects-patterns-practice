@@ -12,12 +12,12 @@ final class RenamePlaylist implements Command
         private readonly Playlist $playlist,
         private readonly string $title,
     ) {
-        $this->previous = $playlist->title();
+        $this->previous = $playlist->title;
     }
 
     public function execute(): string
     {
-        $this->previous = $this->playlist->title();
+        $this->previous = $this->playlist->title;
         $this->playlist->rename($this->title);
 
         return "переименовал в «{$this->title}»";

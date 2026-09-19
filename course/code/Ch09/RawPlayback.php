@@ -12,6 +12,6 @@ final class RawPlayback implements Playback
 
     public function play(): string
     {
-        return "звук: {$this->node->title()}";
+        return "звук: {$this->node->title}";
     }
 }

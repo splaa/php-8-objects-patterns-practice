@@ -16,7 +16,7 @@ use Course\Ch13\PlaylistService;
 $service = new PlaylistService(new ConsoleLogger());
 $service->add('Coastline');
 $service->add('Drift');
-$service->add('Coastline');
+$service->add('coastline');
 
 echo 'Итог: ', implode(', ', $service->titles()), PHP_EOL;
 

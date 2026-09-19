@@ -12,7 +12,13 @@ final class Track
 
     private static int $created = 0;
 
-    private int $plays = 0;
+    /** Читают все, увеличивает только сам класс. */
+    public private(set) int $plays = 0;
+
+    /** Виртуальное свойство: значения не хранит, считает при чтении. */
+    public string $duration {
+        get => sprintf('%d:%02d', intdiv($this->seconds, 60), $this->seconds % 60);
+    }
 
     public function __construct(
         public readonly string $title,
@@ -36,28 +42,13 @@ final class Track
         return self::$created;
     }
 
-    public function seconds(): int
-    {
-        return $this->seconds;
-    }
-
-    public function plays(): int
-    {
-        return $this->plays;
-    }
-
     public function play(): void
     {
         $this->plays++;
     }
 
-    public function duration(): string
-    {
-        return sprintf('%d:%02d', intdiv($this->seconds, 60), $this->seconds % 60);
-    }
-
     public function __toString(): string
     {
-        return "{$this->artist} — {$this->title} ({$this->duration()})";
+        return "{$this->artist} — {$this->title} ({$this->duration})";
     }
 }

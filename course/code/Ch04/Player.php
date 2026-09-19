@@ -17,8 +17,8 @@ final class Player
         $total = 0;
 
         foreach ($this->queue as $item) {
-            $total += $item->seconds();
-            $lines[] = sprintf('%s (%s)', $item->label(), $item->duration());
+            $total += $item->seconds;
+            $lines[] = sprintf('%s (%s)', $item->label(), $item->duration);
         }
 
         $lines[] = sprintf('Всего: %d сек', $total);

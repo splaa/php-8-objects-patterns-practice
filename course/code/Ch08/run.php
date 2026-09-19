@@ -15,27 +15,28 @@ use Course\Ch08\M3uKit;
 use Course\Ch08\PlaylistTemplate;
 use Course\Ch08\Track;
 
-$csv = "Drift;270\nCoastline;215";
-$m3u = "#EXTM3U\n#EXTINF:270,Drift\n#EXTINF:215,Coastline";
+$raw = [
+    'csv' => "Drift;270\nCoastline;215",
+    'm3u' => "#EXTM3U\n#EXTINF:270,Drift\n#EXTINF:215,Coastline",
+];
 
 // Factory Method: общий алгоритм импорта, разный парсер.
-foreach ([new CsvImporter(), new M3uImporter()] as $importer) {
-    $tracks = $importer->import(match (true) {
-        $importer instanceof CsvImporter => $csv,
-        default => $m3u,
-    });
+foreach (['csv' => new CsvImporter(), 'm3u' => new M3uImporter()] as $format => $importer) {
+    $titles = array_map(static fn (Track $t): string => $t->title, $importer->import($raw[$format]));
 
-    printf('%s -> %s%s', $importer::class, implode(', ', array_map(static fn (Track $t): string => $t->title, $tracks)), PHP_EOL);
+    printf('%s -> %s%s', $importer::class, implode(', ', $titles), PHP_EOL);
 }
 
 // Abstract Factory: парсер и писатель всегда из одного семейства.
-$roundTrip = static function (FormatKit $kit, string $raw): void {
-    $tracks = $kit->parser()->parse($raw);
-    printf('[%s] %s%s', $kit->name(), str_replace(PHP_EOL, ' / ', $kit->writer()->write($tracks)), PHP_EOL);
-};
+$kits = [new CsvKit(), new M3uKit()];
 
-$roundTrip(new CsvKit(), $csv);
-$roundTrip(new M3uKit(), $m3u);
+foreach (array_keys($raw) as $format) {
+    $kit = array_find($kits, static fn (FormatKit $kit): bool => $kit->name() === $format)
+        ?? throw new RuntimeException("Нет семейства для формата {$format}");
+
+    $tracks = $kit->parser()->parse($raw[$format]);
+    printf('[%s] %s%s', $kit->name(), str_replace(PHP_EOL, ' / ', $kit->writer()->write($tracks)), PHP_EOL);
+}
 
 // Prototype: заготовка плюс клон с глубоким копированием.
 $template = PlaylistTemplate::of('Утро', [new Track('Coastline', 215)]);

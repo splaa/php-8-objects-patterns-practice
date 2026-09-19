@@ -17,7 +17,7 @@ $queue = [
     new Track('Longform', 4210, 'Nadia Rue'),
 ];
 
-echo (new Player($queue))->run(), PHP_EOL;
+echo new Player($queue)->run(), PHP_EOL;
 
 // Плееру важен только интерфейс, а не иерархия классов.
 foreach ($queue as $item) {

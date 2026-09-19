@@ -7,19 +7,9 @@ namespace Course\Ch09;
 final class Track implements PlaylistNode
 {
     public function __construct(
-        private readonly string $title,
-        private readonly int $seconds,
+        public readonly string $title,
+        public readonly int $seconds,
     ) {
-    }
-
-    public function title(): string
-    {
-        return $this->title;
-    }
-
-    public function seconds(): int
-    {
-        return $this->seconds;
     }
 
     public function render(int $depth = 0): string

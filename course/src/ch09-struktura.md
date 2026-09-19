@@ -15,20 +15,21 @@ php course/code/Ch09/run.php
 ```php
 interface PlaylistNode
 {
-    public function title(): string;
-    public function seconds(): int;
+    public string $title { get; }
+    public int $seconds { get; }
     public function render(int $depth = 0): string;
 }
 ```
 
-`Track` возвращает свою длительность. `Playlist` суммирует детей:
+У листа длительность — обычное `readonly`-свойство из конструктора. У ветки её нет физически, она считается по детям, и ровно для этого нужен хук из главы 4:
 
 ```php
-public function seconds(): int
-{
-    return array_sum(array_map(static fn (PlaylistNode $n): int => $n->seconds(), $this->children));
+public int $seconds {
+    get => array_sum(array_map(static fn (PlaylistNode $n): int => $n->seconds, $this->children));
 }
 ```
+
+Снаружи разница незаметна: и `$track->seconds`, и `$playlist->seconds` — просто чтение свойства. Именно эта незаметность и есть цель композита.
 
 Рекурсия получается бесплатно: вложенный плейлист — такой же `PlaylistNode`, и никто не спрашивает, кто он. В выводе примера «Дорога» содержит «Утро» и одиночный трек, а сумма 4695 секунд посчитана без единой проверки типа.
 
@@ -87,7 +88,7 @@ final class LibraryFacade
 
 ## Упражнение
 
-1. Добавьте в `PlaylistNode` метод `count(): int` (число треков). `Track` вернёт `1`, `Playlist` просуммирует детей. Проверьте на дереве из примера: должно получиться 3.
+1. Добавьте в `PlaylistNode` требование `public int $count { get; }` (число треков). `Track` отдаст `1`, `Playlist` просуммирует детей хуком. Проверьте на дереве из примера: должно получиться 3.
 2. Напишите декоратор `SkipSilence`, добавляющий к строке `-> пропуск тишины`, и соберите цепочку из трёх обёрток. Поменяйте их местами и объясните, чем отличается вывод.
 3. Напишите декоратор `Logged`, который печатает `[лог] play()` перед делегированием. Он не меняет результат — это типичный «сквозной» декоратор.
 4. Добавьте в `LibraryFacade` метод `quickPreview(string $albumTitle, array $tracks): string`, который собирает одноуровневый плейлист без декораторов. Убедитесь, что новый код в фасаде — только сборка, без вычислений.
