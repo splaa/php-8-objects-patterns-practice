@@ -1,0 +1,15 @@
+[book]
+title = "Объекты, паттерны и практика в PHP 8"
+description = "Пошаговый курс по объектному PHP 8: классы, типы, паттерны, тесты и инструменты. Один сквозной пример — медиатека."
+authors = ["Курс по идеям книги Matt Zandstra «PHP 8 Objects, Patterns, and Practice»"]
+language = "ru"
+src = "src"
+
+[build]
+build-dir = "book"
+create-missing = false
+
+[output.html]
+default-theme = "rust"
+preferred-dark-theme = "navy"
+no-section-label = false

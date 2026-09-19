@@ -1,0 +1,24 @@
+# Образец workflow для GitHub Actions.
+# Чтобы включить: скопировать в .github/workflows/course.yml
+name: course
+
+on: [push, pull_request]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+
+      - name: Установить зависимости
+        run: composer -d course/code install --no-interaction --no-progress
+
+      - name: Проверить синтаксис
+        run: php course/code/Ch15/check.php
+
+      - name: Прогнать тесты
+        run: composer -d course/code test
